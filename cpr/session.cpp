@@ -288,6 +288,9 @@ void Session::Impl::SetVerifySsl(const VerifySsl& verify) {
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, verify ? 1L : 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, verify ? 2L : 0L);
+        if (verify.CABundle().size()) {
+            curl_easy_setopt(curl, CURLOPT_CAINFO, verify.CABundle().c_str());
+        }
     }
 }
 
